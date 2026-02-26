@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero-banner"
+    style="background-image: linear-gradient(rgba(15, 139, 141, 0.95), rgba(12, 113, 115, 0.95)); padding: 4rem 2rem;">
+    <div class="hero-content">
+        <h1 style="font-size: 2.5rem;">Search All Jobs</h1>
+        <p>Browse our database of thousands of active roles.</p>
+    </div>
+</div>
+
+<div class="container" style="max-width: 1000px; margin-top: 3rem;">
+    <div class="card">
+        <h2 style="margin-bottom: 1.5rem;">Latest Opportunities</h2>
+        <ul class="jobs-list">
+            {% for job in jobs %}
+            <li class="job-item">
+                <div class="job-header">
+                    <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                        <img src="https://logo.clearbit.com/{{ job.company | lower | replace(' ', '') }}.com"
+                            onerror="this.src='https://ui-avatars.com/api/?name={{ job.company | urlencode }}&background=0f8b8d&color=fff&size=64'"
+                            alt="{{ job.company }} logo" class="company-logo">
+                        <div>
+                            <h3 class="job-title">{{ job.role }}</h3>
+                            <div class="company-name">{{ job.company }} &bull; {{ job.location }} &bull; {{
+                                job.employment_type }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                    <strong>Required Experience:</strong> {{ job.experience_level }} | <strong>Education:</strong> {{
+                    job.education }}
+                </div>
+                <div>
+                    <span class="skill-label">Skills:</span>
+                    <div class="badge-container">
+                        {% for skill in job.required_skills.split(',') %}
+                        <span class="badge">{{ skill | trim | capitalize }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="job-actions">
+                    <button class="btn-apply">View Details</button>
+                    <button class="btn-save">Save Job</button>
+                </div>
+            </li>
+            {% endfor %}
+            {% if not jobs %}
+            <p>No jobs found.</p>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

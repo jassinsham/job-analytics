@@ -36,6 +36,16 @@ app.add_middleware(
 def read_root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
+@app.get("/search")
+def search_jobs(request: Request, db: Session = Depends(get_db)):
+    # Simple query to return a list of jobs without filtering
+    jobs = db.query(Job).limit(20).all()
+    return templates.TemplateResponse("search.html", {"request": request, "jobs": jobs})
+
+@app.get("/salary")
+def salary_trends(request: Request):
+    return templates.TemplateResponse("salary.html", {"request": request})
+
 @app.get("/api/trends")
 def get_trends(db: Session = Depends(get_db)):
     jobs = db.query(Job).order_by(Job.trend_score.desc()).all()

@@ -2,14 +2,35 @@
 
 {% block content %}
 <div class="hero-banner"
-    style="background-image: linear-gradient(rgba(15, 139, 141, 0.85), rgba(12, 113, 115, 0.85)), url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
+    style="background-image: linear-gradient(rgba(15, 139, 141, 0.85), rgba(12, 113, 115, 0.85)), url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'); padding-bottom: 12rem;">
     <div class="hero-content">
         <h1>Find the job that's right for you.</h1>
         <p>Upload your resume to instantly see which roles match your exact skills and experience.</p>
     </div>
 </div>
 
-<div class="container upload-overlap">
+<div class="container upload-overlap" style="margin-top: -10rem;">
+    <div class="features-grid" style="margin-bottom: 2rem;">
+        <div class="feature-card">
+            <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                alt="Tech Resume" class="feature-img">
+            <div class="feature-content">
+                <h3>Instant Missing Skills Analysis</h3>
+                <p>Upload your resume and instantly see which critical keywords you are missing for the roles you want.
+                </p>
+            </div>
+        </div>
+        <div class="feature-card">
+            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                alt="Team Collaboration" class="feature-img">
+            <div class="feature-content">
+                <h3>1-Click Role Matching</h3>
+                <p>Stop guessing. We'll show you exactly which jobs in our database you are most qualified for based on
+                    your background.</p>
+            </div>
+        </div>
+    </div>
+
     <div class="upload-card">
         <form action="/upload_resume" method="post" enctype="multipart/form-data">
             <label for="fileUpload" class="upload-area">
@@ -43,52 +64,6 @@
     </div>
 </div>
 
-<!-- Trusted By Section -->
-<div class="trusted-section">
-    <p>TRUSTED BY PROFESSIONALS AT</p>
-    <div class="trusted-logos">
-        <img src="https://logo.clearbit.com/google.com" alt="Google">
-        <img src="https://logo.clearbit.com/amazon.com" alt="Amazon">
-        <img src="https://logo.clearbit.com/meta.com" alt="Meta">
-        <img src="https://logo.clearbit.com/netflix.com" alt="Netflix">
-        <img src="https://logo.clearbit.com/microsoft.com" alt="Microsoft">
-    </div>
-</div>
-
-<!-- Features Grid Section -->
-<div class="features-section container">
-    <h2 class="section-title">Everything you need to land your next role</h2>
-    <div class="features-grid">
-        <div class="feature-card">
-            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                alt="Data Analytics" class="feature-img">
-            <div class="feature-content">
-                <h3>Market Intelligence</h3>
-                <p>We analyze thousands of job descriptions daily to identify the exact skills hiring managers are
-                    looking for right now.</p>
-            </div>
-        </div>
-        <div class="feature-card">
-            <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                alt="Tech Resume" class="feature-img">
-            <div class="feature-content">
-                <h3>Instant Missing Skills Analysis</h3>
-                <p>Upload your resume and instantly see which critical keywords you are missing for the roles you want.
-                </p>
-            </div>
-        </div>
-        <div class="feature-card">
-            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                alt="Team Collaboration" class="feature-img">
-            <div class="feature-content">
-                <h3>1-Click Role Matching</h3>
-                <p>Stop guessing. We'll show you exactly which jobs in our database you are most qualified for based on
-                    your background.</p>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- How It Works Section -->
 <div class="how-it-works">
     <div class="container">
@@ -114,5 +89,4 @@
         </div>
     </div>
 </div>
-
 {% endblock %}

@@ -11,7 +11,7 @@
     <div class="results-grid">
         <!-- Sidebar: Your Skills -->
         <div class="card" style="position: sticky; top: 100px;">
-            <form action="/filter_results" method="post" style="margin-bottom: 2rem;">
+            <form id="filterForm" action="/filter_results" method="post" style="margin-bottom: 2rem;">
                 <input type="hidden" name="filename" value="{{ filename }}">
                 <input type="hidden" name="extracted_skills" value="{{ extracted_skills | join(',') }}">
                 <input type="hidden" name="education" value="{{ education }}">
@@ -23,13 +23,16 @@
 
                 <div class="filter-group">
                     <label>Keywords</label>
-                    <input type="text" name="search_query" class="filter-select" placeholder="e.g. Python, Developer"
-                        value="{{ current_filters.search_query if current_filters else '' }}">
+                    <input type="text" name="search_query" class="filter-select"
+                        placeholder="e.g. Python, Developer (Press Enter to search)"
+                        value="{{ current_filters.search_query if current_filters else '' }}"
+                        onkeypress="if(event.key === 'Enter') { event.preventDefault(); document.getElementById('filterForm').submit(); }">
                 </div>
 
                 <div class="filter-group">
                     <label>Job Type</label>
-                    <select class="filter-select" name="employment_type">
+                    <select class="filter-select" name="employment_type"
+                        onchange="document.getElementById('filterForm').submit();">
                         <option value="Any" {% if current_filters and current_filters.employment_type=='Any'
                             %}selected{% endif %}>Any Type</option>
                         <option value="Full-Time" {% if not current_filters or
@@ -43,7 +46,8 @@
 
                 <div class="filter-group">
                     <label>Location Preference</label>
-                    <select class="filter-select" name="location">
+                    <select class="filter-select" name="location"
+                        onchange="document.getElementById('filterForm').submit();">
                         <option value="Any" {% if current_filters and current_filters.location=='Any' %}selected{% endif
                             %}>Any Location</option>
                         <option value="Remote" {% if not current_filters or current_filters.location=='Remote'
@@ -57,7 +61,8 @@
 
                 <div class="filter-group">
                     <label>Date Posted</label>
-                    <select class="filter-select" name="date_posted">
+                    <select class="filter-select" name="date_posted"
+                        onchange="document.getElementById('filterForm').submit();">
                         <option value="Any" {% if not current_filters or current_filters.date_posted=='Any' %}selected{%
                             endif %}>Any Time</option>
                         <option value="Past 24 Hours" {% if current_filters and
@@ -67,8 +72,7 @@
                     </select>
                 </div>
 
-                <button type="submit" class="btn btn-secondary" style="width: 100%; padding: 10px;">Apply
-                    Filters</button>
+                <!-- Auto-submits on change, button removed for better UX -->
             </form>
 
             <h2 style="display:flex; align-items:center; gap: 8px;">
