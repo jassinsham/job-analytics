@@ -93,6 +93,8 @@ async def upload_resume_ui(request: Request, file: UploadFile = File(...), db: S
         })
     except Exception as e:
         return templates.TemplateResponse("index.html", {"request": request, "error": str(e)})
+
+@app.post("/filter_results")
 async def filter_results(
     request: Request,
     filename: str = Form(...),
