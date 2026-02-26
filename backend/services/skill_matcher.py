@@ -306,11 +306,35 @@ MOCK_JOB_DATA = [
     }
 ]
 
-def analyze_resume_against_market(resume_skills: list[str], db: Session) -> list[dict]:
+def analyze_resume_against_market(resume_skills: list[str], db: Session, filters: dict = None) -> list[dict]:
     results = []
     
-    # Query all jobs from DB instead of using MOCK_JOB_DATA
-    jobs = db.query(Job).all()
+    query = db.query(Job)
+    
+    if filters:
+        if filters.get("employment_type") and filters["employment_type"] != "Any":
+            query = query.filter(Job.employment_type == filters["employment_type"])
+            
+        if filters.get("location") and filters["location"] != "Any":
+            if filters["location"] == "Remote":
+                query = query.filter(Job.location.ilike("%remote%"))
+            elif filters["location"] == "Hybrid":
+                query = query.filter(Job.location.ilike("%hybrid%"))
+            elif filters["location"] == "On-site":
+                query = query.filter(~Job.location.ilike("%remote%"), ~Job.location.ilike("%hybrid%"))
+                
+        if filters.get("date_posted") and filters["date_posted"] != "Any":
+            if filters["date_posted"] == "Past 24 Hours":
+                query = query.filter(Job.posted_days_ago <= 1)
+            elif filters["date_posted"] == "Past Week":
+                query = query.filter(Job.posted_days_ago <= 7)
+                
+        if filters.get("search_query"):
+            search = f"%{filters['search_query']}%"
+            # Search in role or company
+            query = query.filter(Job.role.ilike(search) | Job.company.ilike(search))
+    
+    jobs = query.all()
     
     for job in jobs:
         # Convert comma separated string to list

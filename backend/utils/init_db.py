@@ -31,6 +31,9 @@ def init_db_data(db: Session):
                     required_skills=row.get("Skills", "").lower(),
                     experience_level=exp_level,
                     education="Not Specified",
+                    location=row.get("Location", "Remote"),
+                    employment_type=row.get("Employment_Type", "Full-Time"),
+                    posted_days_ago=days_ago,
                     trend_score=float(trend_score)
                 )
                 db.add(job)
@@ -44,6 +47,9 @@ def init_db_data(db: Session):
                 required_skills=",".join(job_data["required_skills"]),
                 experience_level=job_data.get("experience_level", "Entry Level"),
                 education=job_data.get("education", "Bachelor's"),
+                location="Remote",
+                employment_type="Full-Time",
+                posted_days_ago=1,
                 trend_score=job_data["trend_score"]
             )
             db.add(job)

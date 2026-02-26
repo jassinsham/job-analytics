@@ -10,4 +10,7 @@ class Job(Base):
     required_skills = Column(String) # Comma-separated or JSON string, let's use comma-separated for simplicity in SQLite 
     experience_level = Column(String, default="Entry Level")
     education = Column(String, default="Bachelor's")
+    location = Column(String, default="Remote")
+    employment_type = Column(String, default="Full-Time")
+    posted_days_ago = Column(Integer, default=1)
     trend_score = Column(Float)

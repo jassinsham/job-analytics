@@ -11,36 +11,65 @@
     <div class="results-grid">
         <!-- Sidebar: Your Skills -->
         <div class="card" style="position: sticky; top: 100px;">
-            <div style="margin-bottom: 2rem;">
+            <form action="/filter_results" method="post" style="margin-bottom: 2rem;">
+                <input type="hidden" name="filename" value="{{ filename }}">
+                <input type="hidden" name="extracted_skills" value="{{ extracted_skills | join(',') }}">
+                <input type="hidden" name="education" value="{{ education }}">
+                <input type="hidden" name="experience" value="{{ experience }}">
+
+                <h3
+                    style="margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1.5rem;">
+                    Filter Matches</h3>
+
                 <div class="filter-group">
-                    <label>Distance</label>
-                    <select class="filter-select">
-                        <option>Within 25 miles</option>
-                        <option>Within 50 miles</option>
-                        <option>Remote only</option>
-                    </select>
+                    <label>Keywords</label>
+                    <input type="text" name="search_query" class="filter-select" placeholder="e.g. Python, Developer"
+                        value="{{ current_filters.search_query if current_filters else '' }}">
                 </div>
 
                 <div class="filter-group">
                     <label>Job Type</label>
-                    <select class="filter-select">
-                        <option>Full-Time</option>
-                        <option>Contract</option>
-                        <option>Part-Time</option>
+                    <select class="filter-select" name="employment_type">
+                        <option value="Any" {% if current_filters and current_filters.employment_type=='Any'
+                            %}selected{% endif %}>Any Type</option>
+                        <option value="Full-Time" {% if not current_filters or
+                            current_filters.employment_type=='Full-Time' %}selected{% endif %}>Full-Time</option>
+                        <option value="Contract" {% if current_filters and current_filters.employment_type=='Contract'
+                            %}selected{% endif %}>Contract</option>
+                        <option value="Part-time" {% if current_filters and current_filters.employment_type=='Part-time'
+                            %}selected{% endif %}>Part-time</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Location Preference</label>
+                    <select class="filter-select" name="location">
+                        <option value="Any" {% if current_filters and current_filters.location=='Any' %}selected{% endif
+                            %}>Any Location</option>
+                        <option value="Remote" {% if not current_filters or current_filters.location=='Remote'
+                            %}selected{% endif %}>Remote Only</option>
+                        <option value="Hybrid" {% if current_filters and current_filters.location=='Hybrid' %}selected{%
+                            endif %}>Hybrid</option>
+                        <option value="On-site" {% if current_filters and current_filters.location=='On-site'
+                            %}selected{% endif %}>On-site</option>
                     </select>
                 </div>
 
                 <div class="filter-group">
                     <label>Date Posted</label>
-                    <select class="filter-select">
-                        <option>Any Time</option>
-                        <option>Past 24 Hours</option>
-                        <option>Past Week</option>
+                    <select class="filter-select" name="date_posted">
+                        <option value="Any" {% if not current_filters or current_filters.date_posted=='Any' %}selected{%
+                            endif %}>Any Time</option>
+                        <option value="Past 24 Hours" {% if current_filters and
+                            current_filters.date_posted=='Past 24 Hours' %}selected{% endif %}>Past 24 Hours</option>
+                        <option value="Past Week" {% if current_filters and current_filters.date_posted=='Past Week'
+                            %}selected{% endif %}>Past Week</option>
                     </select>
                 </div>
 
-                <button class="btn btn-secondary" style="width: 100%; padding: 10px;">Apply Filters</button>
-            </div>
+                <button type="submit" class="btn btn-secondary" style="width: 100%; padding: 10px;">Apply
+                    Filters</button>
+            </form>
 
             <h2 style="display:flex; align-items:center; gap: 8px;">
                 <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent);">

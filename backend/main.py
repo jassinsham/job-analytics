@@ -83,3 +83,39 @@ async def upload_resume_ui(request: Request, file: UploadFile = File(...), db: S
         })
     except Exception as e:
         return templates.TemplateResponse("index.html", {"request": request, "error": str(e)})
+async def filter_results(
+    request: Request,
+    filename: str = Form(...),
+    extracted_skills: str = Form(...),
+    education: str = Form(...),
+    experience: str = Form(...),
+    search_query: str = Form(""),
+    employment_type: str = Form("Any"),
+    location: str = Form("Any"),
+    date_posted: str = Form("Any"),
+    db: Session = Depends(get_db)
+):
+    try:
+        skills = [s.strip() for s in extracted_skills.split(",")] if extracted_skills else []
+        
+        filters = {
+            "search_query": search_query,
+            "employment_type": employment_type,
+            "location": location,
+            "date_posted": date_posted
+        }
+        
+        # Analyze against market with filters
+        analysis_results = analyze_resume_against_market(skills, db, filters=filters)
+        
+        return templates.TemplateResponse("results.html", {
+            "request": request,
+            "filename": filename,
+            "extracted_skills": skills,
+            "education": education,
+            "experience": experience,
+            "analysis": analysis_results,
+            "current_filters": filters
+        })
+    except Exception as e:
+        return templates.TemplateResponse("index.html", {"request": request, "error": str(e)})
